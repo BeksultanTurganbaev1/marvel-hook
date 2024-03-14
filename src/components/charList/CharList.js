@@ -5,13 +5,12 @@ import Spinner from '../spinner/Spiner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
-import CharInfo from '../charInfo/CharInfo';
 
 const CharList = (props) => {
 
     const [charList, setCharList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(120);
+    const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
 
     const {loading, error, getAllCharacters} = useMarvelService();
@@ -26,7 +25,7 @@ const CharList = (props) => {
             .then(onCharListLoaded)
     }
 
-    const onCharListLoaded = (newCharList = []) => {
+    const onCharListLoaded = (newCharList) => {
         let ended = false;
         if (newCharList.length < 9) {
             ended = true;
@@ -35,7 +34,7 @@ const CharList = (props) => {
         setCharList(charList => [...charList, ...newCharList]);
         setNewItemLoading(newItemLoading => false);
         setOffset(offset => offset + 9);
-        setCharEnded(charEnded => charEnded);
+        setCharEnded(charEnded => ended);
     }
 
     const itemRefs = useRef([]);
@@ -112,7 +111,7 @@ const CharList = (props) => {
     )
 }
 
-CharInfo.propTypes = {
+CharList.propTypes = {
     onCharSelected: PropTypes.func.isRequired
 }
 
